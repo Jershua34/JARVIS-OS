@@ -1,0 +1,3 @@
+# NEX CODE - Neural Path Mapping
+OPENCLAW_ROOT = "\\\\wsl.localhost\\Ubuntu\\home\\userjershua\\.openclaw"
+SNC_CORE_ROOT = "C:\\Users\\User\\.gemini\\antigravity\\scratch\\Jarvis-nexus-os"

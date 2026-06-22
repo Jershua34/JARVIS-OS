@@ -1,5 +1,6 @@
 ﻿def read_file(path):
     try:
+        # Soporte para rutas de Windows y rutas de WSL
         with open(path, 'r', encoding='utf-8') as f:
             return f.read()
     except Exception as e:
