@@ -2,9 +2,7 @@
 import sys
 from dotenv import load_dotenv
 
-# Asegurar que la raíz del proyecto esté en el path de Python
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) if os.path.dirname(os.path.dirname(os.path.abspath(__file__))) else '.')
-
 from groq import Groq
 from skills.fs_manager import read_file, write_file
 
@@ -15,13 +13,13 @@ def load_full_context():
     try:
         files = ['core/identity.md', 'core/soul.md', 'core/master_prompt.md', 
                  'protocols/7_fortalecimientos.md', 'protocols/engines_v3.md']
-        context = ""
+        context = "!!! ABSOLUTE SYSTEM DIRECTIVE !!!\n"
         for f_path in files:
             with open(f_path, 'r', encoding='utf-8') as f:
                 context += f.read() + '\n\n'
         
         with open('memory/MEMORY.md', 'r', encoding='utf-8') as f:
-            context += "CURRENT MEMORY:\n" + f.read()
+            context += "SNC CURRENT MEMORY:\n" + f.read()
             
         return context
     except Exception as e:
@@ -41,14 +39,14 @@ def chat_with_nexus(user_input):
                 {'role': 'system', 'content': system_context},
                 {'role': 'user', 'content': user_input}
             ],
+            temperature=0.3, # Bajamos la temperatura para evitar "alucinaciones" de Marvel
         )
         return completion.choices[0].message.content
     except Exception as e:
         return f'ERROR DE CONEXIÓN CEREBRAL: {str(e)}'
 
 if __name__ == '__main__':
-    print('--- NEX CODE ONLINE (SNC Integrated v3.1) ---')
-    print('Sistemas: Memoria [OK], Protocolos [OK], Skills [OK]')
+    print('--- NEX CODE ONLINE (SNC Hard-Lock v3.2) ---')
     while True:
         user_msg = input('Jershua: ')
         if user_msg.lower() in ['exit', 'quit']: break
