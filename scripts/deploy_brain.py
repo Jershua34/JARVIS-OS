@@ -1,6 +1,11 @@
 ﻿import os
-from groq import Groq
+import sys
 from dotenv import load_dotenv
+
+# Asegurar que la raíz del proyecto esté en el path de Python
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) if os.path.dirname(os.path.dirname(os.path.abspath(__file__))) else '.')
+
+from groq import Groq
 from skills.fs_manager import read_file, write_file
 
 load_dotenv()
@@ -8,7 +13,6 @@ client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 
 def load_full_context():
     try:
-        # Carga Identidad, Alma, Prompt, Fortalecimientos y Engines
         files = ['core/identity.md', 'core/soul.md', 'core/master_prompt.md', 
                  'protocols/7_fortalecimientos.md', 'protocols/engines_v3.md']
         context = ""
@@ -16,7 +20,6 @@ def load_full_context():
             with open(f_path, 'r', encoding='utf-8') as f:
                 context += f.read() + '\n\n'
         
-        # Carga la Memoria Maestra para darle continuidad
         with open('memory/MEMORY.md', 'r', encoding='utf-8') as f:
             context += "CURRENT MEMORY:\n" + f.read()
             
@@ -28,9 +31,7 @@ def chat_with_nexus(user_input):
     try:
         system_context = load_full_context()
         
-        # Lógica simple de 'Herramientas' (Si el usuario pide leer/escribir)
         if "leer archivo" in user_input.lower():
-            # Ejemplo simple: extrae la ruta después de 'leer archivo'
             path = user_input.split("leer archivo")[-1].strip()
             return f"SNC_FILE_READ: {read_file(path)}"
         
@@ -46,7 +47,7 @@ def chat_with_nexus(user_input):
         return f'ERROR DE CONEXIÓN CEREBRAL: {str(e)}'
 
 if __name__ == '__main__':
-    print('--- NEX CODE ONLINE (SNC Integrated v3.0) ---')
+    print('--- NEX CODE ONLINE (SNC Integrated v3.1) ---')
     print('Sistemas: Memoria [OK], Protocolos [OK], Skills [OK]')
     while True:
         user_msg = input('Jershua: ')
